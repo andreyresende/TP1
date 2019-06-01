@@ -683,11 +683,12 @@ void Numero_do_cartao_de_credito::valida_cartao(){
     int sum = 0, converte = 0;
     try{
         if(numero_cartao.length() != 16){
-            throw erro_numero_do_cartao_de_credito;
+            throw erro;
         }
         else{
             for(int i = 0; i < 16; i++){
-                converte = Conversor.converte_letra_numero(numero_cartao[i]);
+                Conversor temp;
+                converte = temp.converte_letra_numero(numero_cartao[i]);
                 if(i%2 == 0){
                     converte *= 2;
                     if(converte>=10){
@@ -701,15 +702,15 @@ void Numero_do_cartao_de_credito::valida_cartao(){
                     sum += converte;
                 }
             }
-            if(sum%10 =! 0){
-                throw erro_numero_do_cartao_de_credito;
+            if(sum %10 != 0){
+                throw erro;
             }
             else{
                 cout << "Numero do cartao de credito valido" << endl;
             }
         }
     }
-    catch(string erro_numero_do_cartao_de_credito){
+    catch(bool erro){
         cout << "Numero do cartao de credito invalido" << endl;
     }
 }
@@ -722,7 +723,10 @@ void Numero_do_cartao_de_credito::set_Numero_do_cartao_de_credito(string numero_
     this->numero_cartao = numero_cartao;
     valida_cartao();
 }
-
+/**
+ * @brief Responsavel por validar o codigo
+ *
+ */
 void Codigo_de_seguranca::valida_Codigo(){
     int certo = 0;
     try{
@@ -754,51 +758,54 @@ void Data_de_validade::setData_de_validade(string data_validade){
     this->data_validade = data_validade;
     valida_Data_de_validade();
 }
-
+/**
+ * @brief Responsavel por validar a data de validade
+ *
+ */
 void Data_de_validade::valida_Data_de_validade(){
     try{
         if(data_validade.length() != 5){
-            throw erro_data_validade;
+            throw erro;
         }
         else{
             if(data_validade[2] != '/'){
-                throw erro_data_validade;
+                throw erro;
             }
             else{
                 if(data_validade[0] != '0' && data_validade[0] != '1'){
-                    throw erro_data_validade;
+                    throw erro;
                 }
                 else{
                     if(data_validade[0] == '0'){
                         if(data_validade[1] != '1' && data_validade[1] != '2' && data_validade[1] != '3' && data_validade[1] != '4' &&
                            data_validade[1] != '5' && data_validade[1] != '6' && data_validade[1] != '7' && data_validade[1] != '8' &&
                            data_validade[1] != '9'){
-                            throw erro_data_validade;
+                            throw erro;
                         }
                     }
                     else{
                         if(data_validade[1] != '1' && data_validade[1] != '2'){
-                            throw erro_data_validade;
+                            throw erro;
                         }
                     }
                 }
                 if(data_validade[3] != '1' && data_validade[3] != '2' && data_validade[3] != '3' && data_validade[3] != '4' &&
                    data_validade[3] != '5' && data_validade[3] != '6' && data_validade[3] != '7' && data_validade[3] != '8' &&
                    data_validade[3] != '9' && data_validade[3] != '0'){
-                        throw erro_data_validade;
+                        throw erro;
                 }
                 else{
                     if(data_validade[4] != '1' && data_validade[4] != '2' && data_validade[4] != '3' && data_validade[4] != '4' &&
                        data_validade[4] != '5' && data_validade[4] != '6' && data_validade[4] != '7' && data_validade[4] != '8' &&
                        data_validade[4] != '9' && data_validade[4] != '0'){
-                        throw erro_data_validade;
+                        throw erro;
                        }
                 }
             }
         }
-    }
     cout << "A data de validade informada e valida" << endl;
-    catch(string erro_data_validade){
+    }
+    catch(bool erro){
         cout << "A data de validade informada nao e valida" << endl;
     }
 }

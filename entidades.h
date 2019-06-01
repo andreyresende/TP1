@@ -99,8 +99,32 @@ class Apresentacao{
         void setApresentacao(string string_numero, string string_data, string string_horario, int int_preco, int int_sala, int int_disponibilidade);
 };
 
-class Ingresso{};
+class Ingresso{
+    private:
+        Codigo_de_ingresso codigo_de_ingresso;
+        string cod_ingressos;
+    public:
+        Ingresso(){
+            cod_ingressos = "" ;
+        }
+        void setIngresso(string cod_ingressos);
+};
 
-class Cartao_de_credito{};
+class Cartao_de_credito{
+    private:
+        Numero_do_cartao_de_credito numero_do_cartao_de_credito;
+        Codigo_de_seguranca codigo_de_seguranca;
+        Data_de_validade data_de_validade;
+        string numeros_cartoes_de_credito;
+        string codigos;
+        string datas;
+    public:
+        Cartao_de_credito(){
+            numeros_cartoes_de_credito = "";
+            codigos = "";
+            datas = "";
+        }
+        void setCartao_de_credito(string numeros_cartoes_de_credito, string codigos, string datas);
+};
 
 #endif
