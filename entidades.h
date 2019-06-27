@@ -2,27 +2,41 @@
 #define __ENTIDADES_H__
 
 #include "dominios.h"
+#include <list>
+
+
+
 /**
- * @brief A classe Usuario serve para o cadastro e login de novo usuario no sistema, informando Cpf e senha
+ * Acrescentar aqui a disponibilidade em apresentacao
  * 
  */
-class Usuario{
+class Apresentacao{
     private:
-        Cpf cpf_usuario;
-        Senha senha_usuario;
-        string cpf_string;
-        string senha;
+        Codigo_de_apresentacao codigo_de_apresentacao;
+        Data data;
+        Horario horario;
+        Preco preco;
+        Numero_de_sala sala;
+        Disponibilidade disponibilidade;
+        list<Cpf> compradores;
     public:
-        Usuario(){
-            cpf_string = "";
-            senha = "";
+        bool apagado;
+        int quantidade_original;
+        Evento(){
+            apagado = false;
+            quantidade_original = 0;
         }
-        //a ser implementado na versao final do trabalho
-        //void loga_ou_cadastra();
-
-        int setUsuario(string cpf_string, string senha);
-
-        //int loga_usuario();
+        void setApresentacao(string codigo_de_apresentacao, string data, string horario, int preco, int sala, int disponibilidade);
+        void adicionarCompradores(string cpf);
+        string getCodigo_de_apresentacao();
+        string getData();
+        string getHorario();
+        int getPreco();
+        int getSala();
+        int getDisponibilidade();
+        Apresentacao* getApresentacao(){ return this;}
+        void vender(int quantidade);
+        void listarCpf();
 };
 
 class Evento{
@@ -33,74 +47,66 @@ class Evento{
         Estado estado;
         Classe_de_evento classe_de_evento;
         Faixa_etaria faixa_etaria;
-        string cod_eventos;
-        string nome_eventos;
-        string cidades;
-        string estados;
-        int classe_eventos;
-        string faixas;
-
     public:
+        list <Apresentacao> apresentacoes;
+        int quantidade;
+        bool apagado;
         Evento(){
-            cod_eventos = "";
-            nome_eventos = "";
-            cidades = "";
-            estados = "";
-            classe_eventos = 0;
-            faixas = "";
+            quantidade = 0;
+            apagado    = false;
         }
-
-        void setEvento(string cod_eventos, string nome_eventos, string cidades, string estados, int classe_eventos, string faixas){
-            this->cod_eventos = cod_eventos;
-            this->nome_eventos = nome_eventos;
-            this->cidades = cidades;
-            this->estados = estados;
-            this->classe_eventos = classe_eventos;
-            this->faixas = faixas;
-            
-            codigo_de_evento.setCodigo_de_evento(cod_eventos);
-            nome_de_evento.setNome_de_evento(nome_eventos);
-            cidade.setCidade(cidades);
-            estado.setEstado(estados);
-            classe_de_evento.setClasse_de_evento(classe_eventos);
-            faixa_etaria.setFaixa_etaria(faixas);
-        }
-
+        void setEvento(string codigo_de_evento, string nome_de_evento, string estado, string cidade, int classe_de_evento, 
+                       string faixa_etaria);
+        void adicionarApresentacao(int &quantidade_apresentacoes, list<Evento*> &totalEventos, list <Apresentacao*> &totalApresentacoes, string data, string horario, int preco,
+                                   int sala, int disponibilidade);
+        void listarApresentacoes();
+        string getCodigo_de_evento();
+        string getNome_de_evento();
+        string getCidade();
+        string getEstado();
+        int getClasse_de_evento();
+        string getFaixa_etaria();
+        Evento* getEvento(){ return this;}
 };
+
+class Ingresso{
+    private:
+        Codigo_de_ingresso codigo_de_ingresso;
+        string cod_ingressos;
+    public:
+        Ingresso(){
+            cod_ingressos = "" ;
+        }
+        void setIngresso(string cod_ingressos);
+};
+
 /**
- * Acrescentar aqui a disponibilidade em apresentacao
+ * @brief A classe Usuario serve para o cadastro e login de novo usuario no sistema, informando Cpf e senha
  * 
  */
-class Apresentacao{
+class Usuario{
     private:
-        Codigo_de_apresentacao apresentacao;
-        Data data;
-        Horario horario;
-        Preco preco;
-        Numero_de_sala sala;
-        Disponibilidade disponibilidade;
-        string string_numero;
-        string string_data;
-        string string_horario;
-        int int_preco;
-        int int_sala;
-        int int_disponibilidade;
-
+        Cpf cpf;
+        Senha senha;
+        Numero_do_cartao_de_credito numero_do_cartao_de_credito;
+        Codigo_de_seguranca codigo_de_seguranca;
+        Data_de_validade data_de_validade;
     public:
-        Apresentacao(){
-            string_numero = "";
-            string_data = "";
-            string_horario = "";
-            int_preco = -1;
-            int_sala = -1;
-            int_disponibilidade = -1;
+        list <Evento> eventos;
+        int quantidade;
+        bool apagado;
+    Usuario(){
+            quantidade = 0;
+            apagado = false;
         }
-
-        void setApresentacao(string string_numero, string string_data, string string_horario, int int_preco, int int_sala, int int_disponibilidade);
+        bool setUsuario(string cpf, string senha, string numero_do_cartao_de_credito, string codigo_de_seguranca, string data_de_validade);
+        void adicionarEvento(int &quantidade_eventos, list <Evento*> &totalEventos, string nome_de_evento, string estado, string cidade,
+                             int classe_de_evento, string faixa_etaria);
+        string getCpf();
+        string getSenha();
+        string getNumero_do_cartao_de_credito();
+        string getCodigo_de_seguranca();
+        string getData_de_validade();
+        Usuario* getUsuario(){ return this;}
 };
-
-class Ingresso{};
-
-class Cartao_de_credito{};
-
 #endif

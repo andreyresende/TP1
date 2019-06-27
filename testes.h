@@ -29,8 +29,6 @@ class Testes{
         Usuario teste_usuario;
         Evento teste_evento;
         Apresentacao teste_apresentacao;
-        Numero_do_cartao_de_credito teste_numero_do_cartao_de_credito;
-        Data_de_validade teste_data_de_validade;
 
 
         void teste_Codigo_de_evento(){
@@ -151,7 +149,7 @@ class Testes{
             cout << "Codigo Testado: 4" << endl;
             testa_disponibilidade.setDisponibilidade(4);
             cout << "Codigo Testado: 8000" << endl;
-            testa_disponibilidade.setDisponibilidade(8000);
+            testa_disponibilidade.setDisponibilidade(8000);            
             cout << endl <<"####################################" << endl;
             cout << "Termino dos testes de Disponibilidade" << endl;
             cout << "####################################" << endl << endl;
@@ -190,7 +188,7 @@ class Testes{
             cout << "Codigo Testado: Cidade1" << endl;
             testa_cidade.setCidade("Cidade1");
             cout << "Codigo Testado: Cidade2.c" << endl;
-            testa_cidade.setCidade("Cidade1.c");
+            testa_cidade.setCidade("Cidade1.c");            
             cout << endl <<"####################################" << endl;
             cout << "Termino dos testes de Cidade" << endl;
             cout << "####################################" << endl << endl;
@@ -249,19 +247,19 @@ class Testes{
             cout << "####################################" << endl << endl;
         }
 
-        void teste_Usuario(){
+        /*void teste_Usuario(){
             cout << "############################" << endl;
             cout << "Iniciando testes de usuario" << endl;
             cout << "############################" << endl << endl << endl;
             cout << "Usuario testado: 06762463118, Senha1" << endl;
-            teste_usuario.setUsuario("06762463118", "Senha1");
+            teste_usuario.setUsuario("06762463118", "Senha1", "5555666677778884", "123", "10/21");
             cout << "Usuario testado: 09762463118, senha2" << endl;
-            teste_usuario.setUsuario("09762463118", "senha2");
+            teste_usuario.setUsuario("09762463118", "senha2", "4012001037141112", "456", "12/25");
             cout << endl <<"####################################" << endl;
             cout << "Termino dos testes de usuario" << endl;
             cout << "####################################" << endl << endl;
         }
-
+        */
         void teste_Evento(){
             cout << "############################" << endl;
             cout << "Iniciando testes de evento" << endl;
@@ -269,7 +267,7 @@ class Testes{
             cout << "Evento Testado: 100, Evento1, Brasilia, DF, 1, L" << endl;
             teste_evento.setEvento("100", "Evento1", "Brasilia", "DF", 1, "L");
             cout << "Evento Testado: 1000, Evento1, Brasilia, DF, 1, L" << endl;
-            teste_evento.setEvento("1000", "Evento   1", "Brasiliaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "US", 23, "52");
+            teste_evento.setEvento("1000", "Evento", "Brasiliaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "US", 23, "52");
             cout << endl <<"####################################" << endl;
             cout << "Termino dos testes de evento" << endl;
             cout << "####################################" << endl << endl;
@@ -288,34 +286,8 @@ class Testes{
             cout << "####################################" << endl << endl;
         }
 
-        void teste_numero_do_cartao_de_credito(){
-            cout << "############################" << endl;
-            cout << "Iniciando testes de numero do cartao de credito" << endl;
-            cout << "############################" << endl << endl << endl;
-            cout << "Numero do cartao de credito: 1234567890123456" << endl;
-            teste_numero_do_cartao_de_credito.setNumero_do_cartao_de_credito("1234567890123456");
-            cout << "Numero do cartao de credito: 5457623898234113" << endl;
-            teste_numero_do_cartao_de_credito.setNumero_do_cartao_de_credito("5457623898234113");
-            cout << endl <<"####################################" << endl;
-            cout << "Termino dos testes de numero do cartao de credito" << endl;
-            cout << "####################################" << endl << endl;
-        }
-
-        void teste_data_de_validade(){
-            cout << "############################" << endl;
-            cout << "Iniciando testes de data de validade" << endl;
-            cout << "############################" << endl << endl << endl;
-            cout << "Data de validade: 10/21" << endl;
-            teste_data_de_validade.setData_de_validade("10/21");
-            cout << "Data de validade : a1,4d";
-            teste_data_de_validade.setData_de_validade("a1,4d");
-            cout << endl <<"####################################" << endl;
-            cout << "Termino dos testes de data de validade" << endl;
-            cout << "####################################" << endl << endl;
-        }
-
     public:
-
+    
         void testesDominios(){
             cout << "############################" << endl;
             cout << "Iniciando testes de dominios" << endl;
@@ -345,7 +317,7 @@ class Testes{
             cout << "############################" << endl;
             cout << "Iniciando testes de entidades" << endl;
             cout << "############################" << endl << endl << endl;
-            teste_Usuario();
+            //teste_Usuario();
             teste_Evento();
             teste_Apresentacao();
             cout << endl <<"####################################" << endl;

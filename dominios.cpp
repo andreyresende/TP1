@@ -37,24 +37,22 @@ int Conversor::converte_letra_numero(char numero){
  * @brief Essa funcao e responsavel por validar o codigo de evento do programa
  *
  */
-void Codigo_de_evento::valida_Codigo(){
-    int certo = 0;
+bool Codigo_de_evento::valida_Codigo(string numero){
     try{
         if(numero.length() == 3){
-            for(int i = 0; i < numero.length(); i++){
-                if(numero[i] == '0' || numero[i] == '1' || numero[i] == '2' || numero[i] == '3' ||
-                numero[i] == '4' || numero[i] == '5' || numero[i] == '6' || numero[i] == '7' ||
-                numero[i] == '8' || numero[i] == '9' )
-                certo++;
+            for(int i = 0; i < 3; i++){
+                if(numero[i] != '0' && numero[i] != '1' && numero[i] != '2' && numero[i] != '3' &&
+                   numero[i] != '4' && numero[i] != '5' && numero[i] != '6' && numero[i] != '7' &&
+                   numero[i] != '8' && numero[i] != '9' )
+                    throw erro_de_evento;
             }
-            if(certo == 3)
-                cout << "Codigo de Evento corretamente apresentado" << endl;
         }
         else{
             throw erro_de_evento;
         }
     }
-    catch(string erro_de_evento){
+    catch(bool erro_de_evento){
+        return true;
         cout << "O codigo informado nao corresponde ao padrao solicitado" << endl;
     }
 }
@@ -63,32 +61,38 @@ void Codigo_de_evento::valida_Codigo(){
  *
  * @param numero parametro que sera enviado para o atributo de mesmo nome do objeto
  */
-void Codigo_de_evento::setCodigo_de_evento(string numero){
-    this->numero = numero;
-    valida_Codigo();
+bool Codigo_de_evento::setCodigo_de_evento(string numero){
+    this->erro_de_evento = valida_Codigo(numero);
+    if(!this->erro_de_evento){
+        this->numero = numero;
+        return false;
+    }
+    else
+        return true;
 }
 /**
  * @brief Essa funcao e responsavel por validar o codigo de apresentacao do programa
  *
  */
-void Codigo_de_apresentacao::valida_apresentacao(){
+bool Codigo_de_apresentacao::valida_apresentacao(string numero){
     int certo = 0;
     try{
         if(numero.length() == 4){
             for(int i = 0; i < numero.length(); i++){
                 if(numero[i] == '0' || numero[i] == '1' || numero[i] == '2' || numero[i] == '3' ||
-                numero[i] == '4' || numero[i] == '5' || numero[i] == '6' || numero[i] == '7' ||
-                numero[i] == '8' || numero[i] == '9' )
-                certo++;
+                   numero[i] == '4' || numero[i] == '5' || numero[i] == '6' || numero[i] == '7' ||
+                   numero[i] == '8' || numero[i] == '9' )
+                    certo++;
             }
             if(certo == 4)
-                cout << "Codigo de apresentacao corretamente apresentado" << endl;
+                return false;
         }
         else{
-            throw erro_de_evento;
+            throw erro;
         }
     }
-    catch(string erro_de_evento){
+    catch(bool erro){
+        this->erro = true;
         cout << "O codigo informado nao corresponde ao padrao solicitado" << endl;
     }
 }
@@ -97,32 +101,38 @@ void Codigo_de_apresentacao::valida_apresentacao(){
  *
  * @param numero parametro que sera enviado para o atributo de mesmo nome do objeto
  */
-void Codigo_de_apresentacao::setCodigo_de_apresentacao(string numero){
-    this->numero = numero;
-    valida_apresentacao();
+bool Codigo_de_apresentacao::setCodigo_de_apresentacao(string numero){
+    this->erro = valida_apresentacao(numero);
+    if(!this->erro){
+        this->numero = numero;
+        return false;
+    }
+    else
+        return true;
 }
 /**
  * @brief Essa funcao e responsavel por validar o codigo de ingresso do programa
  *
  */
-void Codigo_de_ingresso::valida_ingresso(){
+bool Codigo_de_ingresso::valida_ingresso(string numero){
     int certo = 0;
     try{
         if(numero.length() == 5){
             for(int i = 0; i < numero.length(); i++){
                 if(numero[i] == '0' || numero[i] == '1' || numero[i] == '2' || numero[i] == '3' ||
-                numero[i] == '4' || numero[i] == '5' || numero[i] == '6' || numero[i] == '7' ||
-                numero[i] == '8' || numero[i] == '9' )
-                certo++;
+                   numero[i] == '4' || numero[i] == '5' || numero[i] == '6' || numero[i] == '7' ||
+                   numero[i] == '8' || numero[i] == '9' )
+                    certo++;
             }
             if(certo == 5)
                 cout << "Codigo de ingresso corretamente apresentado" << endl;
         }
         else{
-            throw erro_de_evento;
+            throw erro;
         }
     }
-    catch(string erro_de_evento){
+    catch(bool erro){
+        this->erro = true;
         cout << "O codigo informado nao corresponde ao padrao solicitado" << endl;
     }
 }
@@ -131,16 +141,19 @@ void Codigo_de_ingresso::valida_ingresso(){
  *
  * @param numero parametro que sera enviado para o atributo de mesmo nome do objeto
  */
-void Codigo_de_ingresso::setCodigo_de_ingresso(string numero){
-    this->numero = numero;
-    valida_ingresso();
+bool Codigo_de_ingresso::setCodigo_de_ingresso(string numero){
+    valida_ingresso(numero);
+    if(!this->erro)
+        this->numero = numero;
+    else
+        return true;
 }
 /**
  * @brief Essa funcao serve para validar o evento segundo a especificacao
  *
  * @param nome recebe a variavel nome, um de seus atributos para analise
  */
-void Nome_de_evento::valida_evento(string nome){
+bool Nome_de_evento::valida_evento(string nome){
     int erro_espaco = 0;
     int erro_letra_M = 0;
     int erro_letra_m = 0;
@@ -150,33 +163,37 @@ void Nome_de_evento::valida_evento(string nome){
         if(nome.length() <= 20 && nome.length() > 0){
             for(int i = 0; i < nome.length(); i++){
                 if(nome[i] == 'a' || nome[i] == 'b' || nome[i] == 'c' || nome[i] == 'd' || nome[i] == 'e' ||
-                    nome[i] == 'f' || nome[i] == 'g' || nome[i] == 'h' || nome[i] == 'i' || nome[i] == 'j' ||
-                    nome[i] == 'k' || nome[i] == 'l' || nome[i] == 'm' || nome[i] == 'n' || nome[i] == 'n' ||
-                    nome[i] == 'o' || nome[i] == 'p' || nome[i] == 'q' || nome[i] == 'r' || nome[i] == 's' ||
-                    nome[i] == 't' || nome[i] == 'y' || nome[i] == 'v' || nome[i] == 'w' || nome[i] == 'x' ||
-                    nome[i] == 'y' || nome[i] == 'z')
-                        erro_letra_m++;
+                   nome[i] == 'f' || nome[i] == 'g' || nome[i] == 'h' || nome[i] == 'i' || nome[i] == 'j' ||
+                   nome[i] == 'k' || nome[i] == 'l' || nome[i] == 'm' || nome[i] == 'n' || nome[i] == 'n' ||
+                   nome[i] == 'o' || nome[i] == 'p' || nome[i] == 'q' || nome[i] == 'r' || nome[i] == 's' ||
+                   nome[i] == 't' || nome[i] == 'y' || nome[i] == 'v' || nome[i] == 'w' || nome[i] == 'x' ||
+                   nome[i] == 'y' || nome[i] == 'z'){
+                    erro_letra_m++;
+                }
                 else if(nome[i] == 'A' || nome[i] == 'B' || nome[i] == 'C' || nome[i] == 'D' || nome[i] == 'E' ||
-                    nome[i] == 'F' || nome[i] == 'G' || nome[i] == 'H' || nome[i] == 'I' || nome[i] == 'J' ||
-                    nome[i] == 'K' || nome[i] == 'L' || nome[i] == 'M' || nome[i] == 'N' || nome[i] == 'N' ||
-                    nome[i] == 'O' || nome[i] == 'P' || nome[i] == 'Q' || nome[i] == 'R' || nome[i] == 'S' ||
-                    nome[i] == 'T' || nome[i] == 'Y' || nome[i] == 'V' || nome[i] == 'W' || nome[i] == 'X' ||
-                    nome[i] == 'Y' || nome[i] == 'Z')
-                        erro_letra_M++;
-                else if(nome[i] == ' ' && nome[i+1] == ' ')
+                        nome[i] == 'F' || nome[i] == 'G' || nome[i] == 'H' || nome[i] == 'I' || nome[i] == 'J' ||
+                        nome[i] == 'K' || nome[i] == 'L' || nome[i] == 'M' || nome[i] == 'N' || nome[i] == 'N' ||
+                        nome[i] == 'O' || nome[i] == 'P' || nome[i] == 'Q' || nome[i] == 'R' || nome[i] == 'S' ||
+                        nome[i] == 'T' || nome[i] == 'Y' || nome[i] == 'V' || nome[i] == 'W' || nome[i] == 'X' ||
+                        nome[i] == 'Y' || nome[i] == 'Z'){
+                    erro_letra_M++;
+            }
+                else if(nome[i] == ' ' && nome[i+1] == ' '){
                     erro_espaco++;
+                }
             }
 
-            if(erro_espaco == 0 && erro_letra_m != 0 && erro_letra_M != 0)
-                cout << "Nome de evento fornecido corretamente" << endl;
-            else
+            if(erro_espaco != 0 || (erro_letra_m == 0 && erro_letra_M == 0))
                 throw erro_de_nome;
+            else{
+                return false;
+            }
         }
         else
             throw erro_de_nome;
     }
-    catch(string erro_de_nome){
-        cout << "Nome informado esta incorreto" << endl;
+    catch(bool erro_de_nome){
+        return true;
     }
 }
 /**
@@ -184,25 +201,30 @@ void Nome_de_evento::valida_evento(string nome){
  *
  * @param nome parametro que sera enviado para o atributo de mesmo nome do objeto
  */
-void Nome_de_evento::setNome_de_evento(string nome){
-    this->nome = nome;
-    valida_evento(nome);
+bool Nome_de_evento::setNome_de_evento(string nome){
+    this->erro_de_nome = valida_evento(nome);
+    if(!this->erro_de_nome){
+        this->nome = nome;
+        return false;
+    }
+    else
+        return true;
 }
 /**
  * @brief Essa funcao serve para validar o evento segundo a especificacao
  *
  * @param data Utiliza a variavel para a validacao da data conforme a especificacao
  */
-void Data::valida_data(string data){
+bool Data::valida_data(string data){
+    int aux = 0;
     string temp;
-    int i = 0;
     try{
-        for(i = 0; i < data.length(); i++){
-            if(data[i] == '/')
-                erro_barra++;
+        for(int i = 0; i < data.length(); i++){
+            if(data[i] == '/'){
+                aux++;
+            }
         }
-        if(erro_barra == 2){
-
+        if(aux == 2){
             int dia = 0;
             int mes = 0;
             int ano = -1;
@@ -230,35 +252,37 @@ void Data::valida_data(string data){
 
             if(dia > 0 && dia <= 31 && mes > 0 && mes <= 12 && ano >= 0 && ano <= 99){
                 if(mes == 2){
-                    if(dia > 0 && dia < 29 || (dia > 0 && dia <= 29 && ano % 4 == 0))
-                        cout << "Data corretamente informada" << endl;
+                    if((dia > 0 && dia < 29) || (dia == 29 && ano % 4 == 0))
+                        return false;
                     else
                         throw erro_data;
                 }
                 else if(mes == 4 || mes == 6 || mes == 9 || mes == 11){
                     if(dia > 0 && dia <=30)
-                        cout << "Data corretamente informada" << endl;
+                        return false;
                     else
                         throw erro_data;
                 }
-                else if(mes == 1 || mes == 3 || mes == 5 || mes == 7
-                || mes == 8 || mes == 10 || mes == 12){
+                else if(mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12){
                     if(dia > 0 && dia <=31)
-                        cout << "Data corretamente informada" << endl;
+                        return false;
                     else
                         throw erro_data;
                 }
-                else
+                else{
                     throw erro_data;
+                }
             }
-            else
+            else{
                 throw erro_data;
+            }
         }
-        else
+        else{
             throw erro_data;
+        }
     }
-    catch(int erro_data){
-        cout << "Data errada" << endl;
+    catch(bool erro_data){
+        return true;
     }
 }
 /**
@@ -266,16 +290,21 @@ void Data::valida_data(string data){
  *
  * @param data parametro que sera enviado para o atributo de mesmo nome do objeto
  */
-void Data::setData(string data){
-    this->data = data;
-    valida_data(data);
+bool Data::setData(string data){
+    this->erro_data = valida_data(data);
+    if(!this->erro_data){
+        this->data = data;
+        return false;
+    }
+    else
+        return true;
 }
 /**
  * @brief Essa funcao serve para validar o evento segundo a especificacao
  *
  * @param horario Utiliza a variavel para a validacao do horario conforme a especificacao
  */
-void Horario::valida_horario(string horario){
+bool Horario::valida_horario(string horario){
     string temp;
     int i = 0;
     try{
@@ -300,19 +329,20 @@ void Horario::valida_horario(string horario){
 
             if(hora >= 7 && hora <= 22){
                 if(minuto == 0 || minuto == 15 || minuto == 30 || minuto == 45){
-                    cout << "Horario corretamente informado" << endl;
+                    return false;
                 }
                 else
                     throw erro_horario;
             }
-            else throw erro_horario;
+            else
+                throw erro_horario;
 
         }
         else
             throw erro_horario;
     }
-    catch(string erro_horario){
-        cout << "Horario informado esta incorreta" << endl;
+    catch(bool erro_horario){
+        return true;
     }
 }
 /**
@@ -320,23 +350,28 @@ void Horario::valida_horario(string horario){
  *
  * @param horario
  */
-void Horario::setHorario(string horario){
-    this->horario = horario;
-    valida_horario(horario);
+bool Horario::setHorario(string horario){
+    this->erro_horario = valida_horario(horario);
+    if(!this->erro_horario){
+        this->horario = horario;
+        return false;
+    }
+    else
+        return true;
 }
 /**
  * @brief Essa funcao serve para validar o evento segundo a especificacao
  *
  */
-void Preco::valida_preco(){
+bool Preco::valida_preco(int preco){
     try{
         if(preco >= 0 && preco <=1000)
-            cout << "Preco informado corretamente" << endl;
+            return false;
         else
             throw erro;
     }
-    catch(int erro){
-        cout << "Preco informado esta errado" << endl;
+    catch(bool erro){
+        return true;
     }
 }
 /**
@@ -344,39 +379,58 @@ void Preco::valida_preco(){
  *
  * @param preco Utiliza a variavel para a validacao do preco conforme a especificacao
  */
-void Preco::setPreco(int preco){
-    this->preco = preco;
-    valida_preco();
+bool Preco::setPreco(int preco){
+    this->erro = valida_preco(preco);
+    if(!this->erro){
+        this->preco = preco;
+        return false;
+    }
+    else
+        return true;
 }
 /**
  * @brief Essa funcao serve para validar o evento segundo a especificacao
  *
  */
-void Numero_de_sala::valida_sala(){
+bool Numero_de_sala::valida_sala(int sala){
     try{
         if(sala > 0 && sala <= 10)
-            cout << "Valor de sala informado corretamente" << endl;
+            return false;
         else
             throw erro;
     }
-    catch(int erro){
-        cout << "Valor de sala errado" << endl;
+    catch(bool erro){
+        return true;
     }
+}
+/**
+ * @brief essa funcao serve para setar a numero de sala no int sala, atributo do objeto e chama a funcao validar
+ *
+ * @param sala Utiliza a variavel para a validacao da classe de evento conforme a especificacao
+ */
+bool Numero_de_sala::setSala(int sala){
+    this->erro = valida_sala(sala);
+    if(!this->erro){
+        this->sala = sala;
+        return false;
+    }
+    else
+        return true;
 }
 /**
  * @brief essa funcao serve para validar a disponibilidade, atributo do objeto e chama a funcao validar
  *
  */
-void Disponibilidade::valida_disponibilidade(){
+bool Disponibilidade::valida_disponibilidade(int disponibilidade){
     try{
-        if(this->disponibilidade < 0 || this->disponibilidade > 250)
+        if(disponibilidade < 0 || disponibilidade > 250)
             throw erro;
         else{
-            cout << "Disponibilidade Correta" << endl;
+            return false;
         }
     }
     catch(bool erro){
-        cout << "Dispoibilidade informada esta incorreta" << endl;
+        return true;
     }
 }
 /**
@@ -384,37 +438,42 @@ void Disponibilidade::valida_disponibilidade(){
  *
  * @param disponibilidade Utiliza a variavel para a validacao da disponibilidade conforme a especificacao
  */
-void Disponibilidade::setDisponibilidade(int disponibilidade){
-    this->disponibilidade = disponibilidade;
-    valida_disponibilidade();
+bool Disponibilidade::setDisponibilidade(int disponibilidade){
+    this->erro = valida_disponibilidade(disponibilidade);
+    if(!this->erro){
+        this->disponibilidade = disponibilidade;
+        return false;
+    }
+    else
+        return true;
 }
 /**
  * @brief essa funcao serve para validar a classe de evento, atributo do objeto e chama a funcao validar
  *
  */
-void Classe_de_evento::valida_classe_de_evento(){
+bool Classe_de_evento::valida_classe_de_evento(int numero){
     try{
         if(numero == 1){
-            cout << "TEATRO escolhido" << endl;
             this->escolha = "TEATRO";
+            return false;
         }
         else if(numero == 2){
-            cout << "ESPORTE escolhido" << endl;
             this->escolha = "ESPORTE";
+            return false;
         }
         else if(numero == 3){
-            cout << "SHOW NACIONAL escolhido" << endl;
             this->escolha = "SHOW NACIONAL";
+            return false;
         }
         else if(numero == 4){
-            cout << "SHOW INTERNACIONAL escolhido" << endl;
             this->escolha = "SHOW INTERNACIONAL";
+            return false;
         }
         else
             throw erro;
     }
     catch(bool erro){
-        cout << "Classe de evento informada incorretamente" << endl;
+        return true;
     }
 }
 /**
@@ -422,25 +481,29 @@ void Classe_de_evento::valida_classe_de_evento(){
  *
  * @param numero Utiliza a variavel para a validacao da classe de evento conforme a especificacao
  */
-void Classe_de_evento::setClasse_de_evento(int numero){
-    this->numero = numero;
-    valida_classe_de_evento();
+bool Classe_de_evento::setClasse_de_evento(int numero){
+    this->erro = valida_classe_de_evento(numero);
+    if(!this->erro){
+        this->numero = numero;
+        return false;
+    }
+    else
+        return true;
 }
 /**
  * @brief essa funcao serve para validar a faixa etaria, atributo do objeto e chama a funcao validar
  *
  */
-void Faixa_etaria::valida_faixa_etaria(){
+bool Faixa_etaria::valida_faixa_etaria(string faixa){
     try{
         if(faixa == "L" || faixa == "10" || faixa == "12" || faixa == "14" || faixa == "16" || faixa == "18")
-            cout << "Faixa etaria informada corretamente" << endl;
+            return false;
         else
             throw erro;
 
     }
     catch(bool erro){
-        erro = true;
-        cout << "Faixa etaria informada esta incorreta" << endl;
+        return true;
     }
 }
 /**
@@ -448,24 +511,20 @@ void Faixa_etaria::valida_faixa_etaria(){
  *
  * @param faixa parametro que sera enviado ao atributo do objeto
  */
-void Faixa_etaria::setFaixa_etaria(string faixa){
-    this->faixa = faixa;
-    valida_faixa_etaria();
-}
-/**
- * @brief essa funcao serve para setar a numero de sala no int sala, atributo do objeto e chama a funcao validar
- *
- * @param sala Utiliza a variavel para a validacao da classe de evento conforme a especificacao
- */
-void Numero_de_sala::setSala(int sala){
-    this->sala = sala;
-    valida_sala();
+bool Faixa_etaria::setFaixa_etaria(string faixa){
+    this->erro = valida_faixa_etaria(faixa);
+    if(!this->erro){
+        this->faixa = faixa;
+        return false;
+    }
+    else
+        return true;
 }
 /**
  * @brief Responsavel por validar a cidade
  *
  */
-void Cidade::valida_cidade(){
+bool Cidade::valida_cidade(string cidade){
     int erro_espaco = 0;
     int erro_letra_M = 0;
     int erro_letra_m = 0;
@@ -476,40 +535,44 @@ void Cidade::valida_cidade(){
         if(cidade.length() <= 15 && cidade.length() > 0){
             for(int i = 0; i < cidade.length(); i++){
                 if(cidade[i] == 'a' || cidade[i] == 'b' || cidade[i] == 'c' || cidade[i] == 'd' || cidade[i] == 'e' ||
-                    cidade[i] == 'f' || cidade[i] == 'g' || cidade[i] == 'h' || cidade[i] == 'i' || cidade[i] == 'j' ||
-                    cidade[i] == 'k' || cidade[i] == 'l' || cidade[i] == 'm' || cidade[i] == 'n' || cidade[i] == 'n' ||
-                    cidade[i] == 'o' || cidade[i] == 'p' || cidade[i] == 'q' || cidade[i] == 'r' || cidade[i] == 's' ||
-                    cidade[i] == 't' || cidade[i] == 'y' || cidade[i] == 'v' || cidade[i] == 'w' || cidade[i] == 'x' ||
-                    cidade[i] == 'y' || cidade[i] == 'z')
-                        erro_letra_m++;
+                   cidade[i] == 'f' || cidade[i] == 'g' || cidade[i] == 'h' || cidade[i] == 'i' || cidade[i] == 'j' ||
+                   cidade[i] == 'k' || cidade[i] == 'l' || cidade[i] == 'm' || cidade[i] == 'n' || cidade[i] == 'n' ||
+                   cidade[i] == 'o' || cidade[i] == 'p' || cidade[i] == 'q' || cidade[i] == 'r' || cidade[i] == 's' ||
+                   cidade[i] == 't' || cidade[i] == 'y' || cidade[i] == 'v' || cidade[i] == 'w' || cidade[i] == 'x' ||
+                   cidade[i] == 'y' || cidade[i] == 'z')
+                    erro_letra_m++;
                 else if(cidade[i] == 'A' || cidade[i] == 'B' || cidade[i] == 'C' || cidade[i] == 'D' || cidade[i] == 'E' ||
-                    cidade[i] == 'F' || cidade[i] == 'G' || cidade[i] == 'H' || cidade[i] == 'I' || cidade[i] == 'J' ||
-                    cidade[i] == 'K' || cidade[i] == 'L' || cidade[i] == 'M' || cidade[i] == 'N' || cidade[i] == 'N' ||
-                    cidade[i] == 'O' || cidade[i] == 'P' || cidade[i] == 'Q' || cidade[i] == 'R' || cidade[i] == 'S' ||
-                    cidade[i] == 'T' || cidade[i] == 'Y' || cidade[i] == 'V' || cidade[i] == 'W' || cidade[i] == 'X' ||
-                    cidade[i] == 'Y' || cidade[i] == 'Z')
-                        erro_letra_M++;
+                        cidade[i] == 'F' || cidade[i] == 'G' || cidade[i] == 'H' || cidade[i] == 'I' || cidade[i] == 'J' ||
+                        cidade[i] == 'K' || cidade[i] == 'L' || cidade[i] == 'M' || cidade[i] == 'N' || cidade[i] == 'N' ||
+                        cidade[i] == 'O' || cidade[i] == 'P' || cidade[i] == 'Q' || cidade[i] == 'R' || cidade[i] == 'S' ||
+                        cidade[i] == 'T' || cidade[i] == 'Y' || cidade[i] == 'V' || cidade[i] == 'W' || cidade[i] == 'X' ||
+                        cidade[i] == 'Y' || cidade[i] == 'Z')
+                    erro_letra_M++;
                 else if(cidade[i] == ' ' && cidade[i+1] == ' ')
                     erro_espaco++;
                 else if(cidade[i] == '.' && !(cidade[i-1] == 'A' || cidade[i-1] == 'B' || cidade[i-1] == 'C' || cidade[i-1] == 'D' || cidade[i-1] == 'E' ||
-                    cidade[i-1] == 'F' || cidade[i-1] == 'G' || cidade[i-1] == 'H' || cidade[i-1] == 'I' || cidade[i-1] == 'J' ||
-                    cidade[i-1] == 'K' || cidade[i-1] == 'L' || cidade[i-1] == 'M' || cidade[i-1] == 'N' || cidade[i-1] == 'N' ||
-                    cidade[i-1] == 'O' || cidade[i-1] == 'P' || cidade[i-1] == 'Q' || cidade[i-1] == 'R' || cidade[i-1] == 'S' ||
-                    cidade[i-1] == 'T' || cidade[i-1] == 'Y' || cidade[i-1] == 'V' || cidade[i-1] == 'W' || cidade[i-1] == 'X' ||
-                    cidade[i-1] == 'Y' || cidade[i-1] == 'Z'))
-                        erro_ponto++;
+                                              cidade[i-1] == 'F' || cidade[i-1] == 'G' || cidade[i-1] == 'H' || cidade[i-1] == 'I' || cidade[i-1] == 'J' ||
+                                              cidade[i-1] == 'K' || cidade[i-1] == 'L' || cidade[i-1] == 'M' || cidade[i-1] == 'N' || cidade[i-1] == 'N' ||
+                                              cidade[i-1] == 'O' || cidade[i-1] == 'P' || cidade[i-1] == 'Q' || cidade[i-1] == 'R' || cidade[i-1] == 'S' ||
+                                              cidade[i-1] == 'T' || cidade[i-1] == 'Y' || cidade[i-1] == 'V' || cidade[i-1] == 'W' || cidade[i-1] == 'X' ||
+                                              cidade[i-1] == 'Y' || cidade[i-1] == 'Z' || cidade[i-1] == 'a' || cidade[i-1] == 'b' || cidade[i-1] == 'c' ||
+                                              cidade[i-1] == 'd' || cidade[i-1] == 'e' || cidade[i-1] == 'f' || cidade[i-1] == 'g' || cidade[i-1] == 'h' ||
+                                              cidade[i-1] == 'i' || cidade[i-1] == 'j' || cidade[i-1] == 'k' || cidade[i-1] == 'l' || cidade[i-1] == 'm' ||
+                                              cidade[i-1] == 'n' || cidade[i-1] == 'n' || cidade[i-1] == 'o' || cidade[i-1] == 'p' || cidade[i-1] == 'q' ||
+                                              cidade[i-1] == 'r' || cidade[i-1] == 's' || cidade[i-1] == 't' || cidade[i-1] == 'y' || cidade[i-1] == 'v' ||
+                                              cidade[i-1] == 'w' || cidade[i-1] == 'x' || cidade[i-1] == 'y' || cidade[i-1] == 'z'))
+                    erro_ponto++;
             }
-
-            if(erro_espaco == 0 && erro_letra_m != 0 && erro_letra_M != 0 && erro_ponto == 0)
-                cout << "Nome de evento fornecido corretamente" << endl;
+            if(erro_espaco == 0 && (erro_letra_m != 0 || erro_letra_M != 0) && erro_ponto == 0)
+                return false;
             else
                 throw erro;
         }
         else
             throw erro;
     }
-    catch(string erro){
-        cout << "Nome informado esta incorreto" << endl;
+    catch(bool erro){
+        return true;
     }
 }
 /**
@@ -517,26 +580,31 @@ void Cidade::valida_cidade(){
  *
  * @param cidade parametro que sera enviado ao atributo do objeto
  */
-void Cidade::setCidade(string cidade){
-    this->cidade = cidade;
-    valida_cidade();
+bool Cidade::setCidade(string cidade){
+    this->erro = valida_cidade(cidade);
+    if(!this->erro){
+        this->cidade = cidade;
+        return false;
+    }
+    else
+        return true;
 }
 /**
  * @brief Responsavel por validar o estado
  *
  */
-void Estado::valida_Estado(){
+bool Estado::valida_Estado(string estado){
     try{
         if(estado ==  AC || estado == AL || estado == AP || estado == AM || estado == BA || estado == CE ||estado == DF ||
-         estado == ES || estado == GO || estado == MA || estado == MT || estado == MS || estado == MG || estado == PA ||
-         estado == PB || estado == PR || estado == PE || estado == PI || estado == RJ || estado == RN || estado == RS ||
-         estado == RO || estado == RR || estado == SC || estado == SP || estado == SE || estado == TO)
-            cout << "Estado corretamente informado" << endl;
+           estado == ES || estado == GO || estado == MA || estado == MT || estado == MS || estado == MG || estado == PA ||
+           estado == PB || estado == PR || estado == PE || estado == PI || estado == RJ || estado == RN || estado == RS ||
+           estado == RO || estado == RR || estado == SC || estado == SP || estado == SE || estado == TO)
+            return false;
         else
             throw erro;
     }
     catch(bool erro){
-        cout << "Estado incorretamente informado" << endl;
+        return true;
     }
 }
 /**
@@ -544,69 +612,75 @@ void Estado::valida_Estado(){
  *
  * @param estado parametro que sera enviado ao atributo do objeto
  */
-void Estado::setEstado(string estado){
-    this->estado = estado;
-    valida_Estado();
+bool Estado::setEstado(string estado){
+    this->erro = valida_Estado(estado);
+    if(!this->erro){
+        this->estado = estado;
+        return false;
+    }
+    else
+        return true;
 }
 /**
  * @brief Responsavel por validar o Cpf
  *
  */
-void Cpf::valida_Cpf(){
+bool Cpf::valida_Cpf(string cpf_string){
+    int somando  = 0;
+    int somando2 = 0;
+    int cpf_aux[11];
     try{
         if(cpf_string.length() == 11){
-
             for(int i = 0; i < 9; i++){
-                cpf[i] = converte_letra_numero(cpf_string[i]);
-
+                cpf_aux[i] = converte_letra_numero(cpf_string[i]);
             }
-
             //codigo verificador do cpf
             //primeiro numero
             for(int i = 0; i < 9; i++){
-                verifica[i] = (10-i) * cpf[i];
-                soma += verifica[i];
+                verifica[i] = (10-i) * cpf_aux[i];
+                somando += verifica[i];
             }
 
-            if(soma % 11 < 2){
+            if(somando % 11 < 2){
                 verificador1 = 0;
             }
             else{
-                verificador1 = 11 - (soma % 11);
+                verificador1 = 11 - (somando % 11);
             }
             // primeiro digito calculado
-            cpf[9] = verificador1;
+            cpf_aux[9] = verificador1;
 
             //calcular segundo digito
 
             for(int i = 0; i < 10; i++){
-                verifica2[i] = (11-i) * cpf[i];
-                soma2 += verifica2[i];
+                verifica2[i] = (11-i) * cpf_aux[i];
+                somando2 += verifica2[i];
             }
-            if(soma2 % 11 < 2){
+            if(somando2 % 11 < 2){
                 verificador2 = 0;
             }
             else{
-                verificador2 = 11 - (soma2 % 11);
+                verificador2 = 11 - (somando2 % 11);
             }
-            cpf[10] = verificador2;
+            cpf_aux[10] = verificador2;
             int igual = 0;
             for(int i = 0; i < 11; i++)
                 analisacpf[i] = converte_letra_numero(cpf_string[i]);
-            for(int i = 0; i < 11; i++)
-                if(analisacpf[i] == cpf[i])
+            for(int i = 0; i < 11; i++){
+                if(analisacpf[i] == cpf_aux[i]){
                     igual++;
-
-            if(igual == 11)
-                cout << "CPF correto" << endl;
-            else
+                }
+            }
+            if(igual != 11){
                 throw erro_tamanho;
+            }
+            return false;
         }
         else
             throw erro_tamanho;
     }
-    catch(string erro_tamanho){
-        cout << "CPF incorretamente informado" << endl;
+    catch(bool erro_tamanho){
+        return true;
     }
 }
 /**
@@ -614,15 +688,20 @@ void Cpf::valida_Cpf(){
  *
  * @param cpf_string parametro que sera enviado ao atributo do objeto
  */
-void Cpf::setCpf(string cpf_string){
-    this->cpf_string = cpf_string;
-    valida_Cpf();
+bool Cpf::setCpf(string cpf_string){
+    this->erro_tamanho = valida_Cpf(cpf_string);
+    if(!this->erro_tamanho){
+        this->cpf_string = cpf_string;
+        return false;
+    }
+    else
+        return true;
 }
 /**
  * @brief Responsavel por validar a senha
  *
  */
-void Senha::valida_Senha(){
+bool Senha::valida_Senha(string senha){
     int e_numero = 0;
     int e_letra_M = 0;
     int e_letra_m = 0;
@@ -630,40 +709,57 @@ void Senha::valida_Senha(){
 
     try{
 
-        if(senha.length() > 6 || senha.length() <= 0)
+        if(senha.length() > 6 || senha.length() <= 2)
             throw erro_senha;
         else{
-
+            if(senha.length() == 3){
+                if(senha[0] == senha[1] || senha[0] == senha[2] || senha[1] == senha[2])
+                    throw erro_senha;
+            }
+            else if(senha.length() == 4){
+                if(senha[0] == senha[1] || senha[0] == senha[2] || senha[0] == senha[3] || senha[1] == senha[2] || senha[1] == senha[3] ||
+                   senha[2] == senha[3])
+                    throw erro_senha;
+            }
+            else if(senha.length() == 5){
+                if(senha[0] == senha[1] || senha[0] == senha[2] || senha[0] == senha[3] || senha[0] == senha[4] || senha[1] == senha[2] ||
+                   senha[1] == senha[3] || senha[1] == senha[4] || senha[2] == senha[3] || senha[2] == senha[4] || senha[3] == senha[4])
+                    throw erro_senha;
+            }
+            else if(senha.length() == 6){
+                if(senha[0] == senha[1] || senha[0] == senha[2] || senha[0] == senha[3] || senha[0] == senha[4] || senha[0] == senha[5] ||
+                   senha[1] == senha[2] || senha[1] == senha[3] || senha[1] == senha[4] || senha[1] == senha[5] || senha[2] == senha[3] ||
+                   senha[2] == senha[4] || senha[2] == senha[5] || senha[3] == senha[4] || senha[3] == senha[5] || senha[4] == senha[5])
+                    throw erro_senha;
+            }
             for(int i = 0; i < 6; i++){
                 if(senha[i] == '0' || senha[i] == '1' || senha[i] == '2' || senha[i] == '3' || senha[i] == '4' ||
-                    senha[i] == '5' || senha[i] == '6' || senha[i] == '7' || senha[i] == '8' || senha[i] == '9')
-                        e_numero++;
-                    else if(senha[i] == 'a' || senha[i] == 'b' || senha[i] == 'c' || senha[i] == 'd' || senha[i] == 'e' ||
+                   senha[i] == '5' || senha[i] == '6' || senha[i] == '7' || senha[i] == '8' || senha[i] == '9')
+                    e_numero++;
+                else if(senha[i] == 'a' || senha[i] == 'b' || senha[i] == 'c' || senha[i] == 'd' || senha[i] == 'e' ||
                         senha[i] == 'f' || senha[i] == 'g' || senha[i] == 'h' || senha[i] == 'i' || senha[i] == 'j' ||
                         senha[i] == 'k' || senha[i] == 'l' || senha[i] == 'm' || senha[i] == 'n' || senha[i] == 'n' ||
                         senha[i] == 'o' || senha[i] == 'p' || senha[i] == 'q' || senha[i] == 'r' || senha[i] == 's' ||
                         senha[i] == 't' || senha[i] == 'y' || senha[i] == 'v' || senha[i] == 'w' || senha[i] == 'x' ||
                         senha[i] == 'y' || senha[i] == 'z')
-                        e_letra_m++;
-                    else if(senha[i] == 'A' || senha[i] == 'B' || senha[i] == 'C' || senha[i] == 'D' || senha[i] == 'E' ||
+                    e_letra_m++;
+                else if(senha[i] == 'A' || senha[i] == 'B' || senha[i] == 'C' || senha[i] == 'D' || senha[i] == 'E' ||
                         senha[i] == 'F' || senha[i] == 'G' || senha[i] == 'H' || senha[i] == 'I' || senha[i] == 'J' ||
                         senha[i] == 'K' || senha[i] == 'L' || senha[i] == 'M' || senha[i] == 'N' || senha[i] == 'N' ||
                         senha[i] == 'O' || senha[i] == 'P' || senha[i] == 'Q' || senha[i] == 'R' || senha[i] == 'S' ||
                         senha[i] == 'T' || senha[i] == 'Y' || senha[i] == 'V' || senha[i] == 'W' || senha[i] == 'X' ||
                         senha[i] == 'Y' || senha[i] == 'Z')
-                        e_letra_M++;
-                    if(e_numero > 0 && e_letra_M > 0 && e_letra_m > 0)
-                        padrao = true;
+                    e_letra_M++;
+                if(e_numero > 0 && e_letra_M > 0 && e_letra_m > 0)
+                    padrao = true;
             }
         }
 
-        if(padrao)
-            cout << "Senha correta" << endl;
-        else
+        if(!padrao)
             throw erro_senha;
     }
-    catch(string erro_senha){
-        cout << "Senha incorretamente informada" << endl;
+    catch(bool erro_senha){
+        return true;
     }
 }
 /**
@@ -671,23 +767,29 @@ void Senha::valida_Senha(){
  *
  * @param senha parametro que sera enviado ao atributo do objeto
  */
-void Senha::setSenha(string senha){
-    this->senha = senha;
-    valida_Senha();
+bool Senha::setSenha(string senha){
+    this->erro_senha = valida_Senha(senha);
+    if(!this->erro_senha){
+        this->senha = senha;
+        return false;
+    }
+    else
+        return true;
 }
 /**
  * @brief Responsavel por validar o cartao
  *
  */
-void Numero_do_cartao_de_credito::valida_cartao(){
+bool Numero_do_cartao_de_credito::valida_cartao(string numero_cartao){
     int sum = 0, converte = 0;
+    string erro_numero_do_cartao_de_credito;
     try{
         if(numero_cartao.length() != 16){
             throw erro_numero_do_cartao_de_credito;
         }
         else{
             for(int i = 0; i < 16; i++){
-                converte = Conversor.converte_letra_numero(numero_cartao[i]);
+                converte = converte_letra_numero(numero_cartao[i]);
                 if(i%2 == 0){
                     converte *= 2;
                     if(converte>=10){
@@ -701,61 +803,74 @@ void Numero_do_cartao_de_credito::valida_cartao(){
                     sum += converte;
                 }
             }
-            if(sum%10 =! 0){
+            if(sum%10 != 0){
                 throw erro_numero_do_cartao_de_credito;
-            }
-            else{
-                cout << "Numero do cartao de credito valido" << endl;
             }
         }
     }
     catch(string erro_numero_do_cartao_de_credito){
-        cout << "Numero do cartao de credito invalido" << endl;
+        return true;
     }
+    return false;
 }
 /**
  * @brief seta o numero de cartao no atributo numero_cartao
  *
  * @param senha parametro que sera enviado ao atributo do objeto
  */
-void Numero_do_cartao_de_credito::set_Numero_do_cartao_de_credito(string numero_cartao){
-    this->numero_cartao = numero_cartao;
-    valida_cartao();
+bool Numero_do_cartao_de_credito::set_Numero_do_cartao_de_credito(string numero_cartao){
+    this->erro = valida_cartao(numero_cartao);
+    if(!this->erro){
+        this->numero_cartao = numero_cartao;
+        return false;
+    }
+    else
+        return true;
 }
 
-void Codigo_de_seguranca::valida_Codigo(){
+bool Codigo_de_seguranca::valida_Codigo(string numero){
     int certo = 0;
     try{
         if(numero.length() == 3){
             for(int i = 0; i < numero.length(); i++){
                 if(numero[i] == '0' || numero[i] == '1' || numero[i] == '2' || numero[i] == '3' ||
-                numero[i] == '4' || numero[i] == '5' || numero[i] == '6' || numero[i] == '7' ||
-                numero[i] == '8' || numero[i] == '9' )
-                certo++;
+                   numero[i] == '4' || numero[i] == '5' || numero[i] == '6' || numero[i] == '7' ||
+                   numero[i] == '8' || numero[i] == '9' )
+                    certo++;
             }
             if(certo == 3)
-                cout << "Codigo de seguranca corretamente apresentado" << endl;
+                return false;
         }
         else{
             throw erro_de_evento;
         }
     }
-    catch(string erro_de_evento){
-        cout << "O codigo informado nao corresponde ao padrao solicitado" << endl;
+    catch(bool erro_de_evento){
+        return true;
     }
 }
 
-void Codigo_de_seguranca::setCodigo_de_seguranca(string numero){
-    this->numero = numero;
-    valida_Codigo();
+bool Codigo_de_seguranca::setCodigo_de_seguranca(string numero){
+    this->erro_de_evento = valida_Codigo(numero);
+    if(!this->erro_de_evento){
+        this->numero = numero;
+        return false;
+    }
+    else
+        return true;
+}
+bool Data_de_validade::setData_de_validade(string data_validade){
+    this->erro = valida_Data_de_validade(data_validade);
+    if(!this->erro){
+        this->data_validade = data_validade;
+        return false;
+    }
+    else
+        return true;
 }
 
-void Data_de_validade::setData_de_validade(string data_validade){
-    this->data_validade = data_validade;
-    valida_Data_de_validade();
-}
-
-void Data_de_validade::valida_Data_de_validade(){
+bool Data_de_validade::valida_Data_de_validade(string data_validade){
+    string erro_data_validade;
     try{
         if(data_validade.length() != 5){
             throw erro_data_validade;
@@ -777,7 +892,7 @@ void Data_de_validade::valida_Data_de_validade(){
                         }
                     }
                     else{
-                        if(data_validade[1] != '1' && data_validade[1] != '2'){
+                        if(data_validade[1] != '0' && data_validade[1] != '1' && data_validade[1] != '2'){
                             throw erro_data_validade;
                         }
                     }
@@ -785,20 +900,21 @@ void Data_de_validade::valida_Data_de_validade(){
                 if(data_validade[3] != '1' && data_validade[3] != '2' && data_validade[3] != '3' && data_validade[3] != '4' &&
                    data_validade[3] != '5' && data_validade[3] != '6' && data_validade[3] != '7' && data_validade[3] != '8' &&
                    data_validade[3] != '9' && data_validade[3] != '0'){
-                        throw erro_data_validade;
+                    throw erro_data_validade;
                 }
                 else{
                     if(data_validade[4] != '1' && data_validade[4] != '2' && data_validade[4] != '3' && data_validade[4] != '4' &&
                        data_validade[4] != '5' && data_validade[4] != '6' && data_validade[4] != '7' && data_validade[4] != '8' &&
                        data_validade[4] != '9' && data_validade[4] != '0'){
                         throw erro_data_validade;
-                       }
+                    }
                 }
+
             }
         }
+        return false;
     }
-    cout << "A data de validade informada e valida" << endl;
     catch(string erro_data_validade){
-        cout << "A data de validade informada nao e valida" << endl;
+        return true;
     }
 }

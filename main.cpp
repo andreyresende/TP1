@@ -1,47 +1,28 @@
-#include "dominios.h"
-#include "entidades.h"
 #include "testes.h"
+#include <list>
+#include "interfaces.h"
+#include "controladores.h"
+
 using namespace std;
 
-    //string data;
-    //cout << "Acesso de dados" << endl;
-    //cout << "Informe a data de inicio e termino por favor" << endl;
-    //cin >> data;
-    //cout << "Qual o nome da cidade?" << endl;
-    //cout << "Qual a sigla do estado?" << endl;
-
-    //cout << data << " Foi a data informada" << endl;
-
+void populate(Container &container){
+    Cadastro cadastro;
+    cadastro.autenticar(container.totalUsuarios, "06762463118", "1mM23", "5555666677778884", "143", "09/23");
+    container.totalUsuarios.front().adicionarEvento(container.quantidade_eventos, container.totalEventos, "Show fulano", "DF", "Brasilia", 4, "L");
+    container.totalUsuarios.front().eventos.front().adicionarApresentacao(container.quantidade_apresentacoes, container.totalEventos, container.totalApresentacoes, "18/06/19", "18:00", 150, 5, 250);
+    container.totalUsuarios.front().eventos.front().adicionarApresentacao(container.quantidade_apresentacoes, container.totalEventos, container.totalApresentacoes, "21/05/19", "15:00", 100, 2, 205);
+    cadastro.autenticar(container.totalUsuarios, "31914340116", "1mM23", "5555666677778884", "123", "11/27");
+    container.totalUsuarios.front().adicionarEvento(container.quantidade_eventos, container.totalEventos, "Mamonas", "DF", "Brasilia", 3, "12");
+    container.totalUsuarios.front().eventos.front().adicionarApresentacao(container.quantidade_apresentacoes, container.totalEventos, container.totalApresentacoes, "20/07/19", "18:00", 112, 3, 223);   
+}
 
 
 int main(){
-    
-    //testesDominios();
+    Container container;
+    populate(container);
 
-    //Codigo_de_apresentacao apresentacao;
-    //apresentacao.setCodigo_de_apresentacao("10");
-
-    Testes teste;
-    teste.testesDominios();
-    teste.testesEntidades();
-
-
-    //Usuario novo;
-    //novo.cadastra_usuario();
-    //usuario tem senha e cpf
-    //gerador_cpf();
-    //Cpf cpf;
-    //cpf.analisa_cpf();
-  //  Codigo_de_evento evento;
-//    evento.codigo_de_evento();
-    //Nome_de_evento nome;
-    //nome.analisa_evento();
-    //Senha senha;
-    //senha.analisa_senha();
-    //Nome_de_evento evento;
-    //evento.analisa_evento();
-    //Data data;
-    //data.checa_data();
+    Interface_usuario interface_usuario;
+    interface_usuario.tela_inicial(container);
 
     return 0;
 }

@@ -1,5 +1,5 @@
-#ifndef __DOMINIOS_H__
-#define __DOMINIOS_H__
+#ifndef _DOMINIOS_H_
+#define _DOMINIOS_H_
 
 #include <iostream>
 #include <cstdlib>
@@ -11,70 +11,72 @@
 using namespace std;
 
 class Conversor{
-    public:
-        char alfabeto_maiusculo[26] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-        char alfabeto_minusculo[26] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-        char espaco = ' ';
-        char converte_numero_letra(int numero);
-        int converte_letra_numero(char numero);
+public:
+    char alfabeto_maiusculo[26] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+    char alfabeto_minusculo[26] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    char espaco = ' ';
+    char converte_numero_letra(int numero);
+    int converte_letra_numero(char numero);
 };
 
 class Codigo_de_evento{
-    private:
-        string numero;
-        string erro_de_evento;
+private:
+    string numero;
+    bool erro_de_evento;
 
-        void valida_Codigo();
+        bool valida_Codigo(string numero);
 
-    public:
-        Codigo_de_evento(){
-            numero = "";
-            erro_de_evento = "";
-        }
+public:
+    Codigo_de_evento(){
+        numero = "";
+        erro_de_evento = false;
+    }
 
-        void getCodigo() {
-            cout << numero << endl;
-        }
+    string getCodigo() {
+        return numero;
+    }
 
-        void setCodigo_de_evento(string numero);
+    bool setCodigo_de_evento(string numero);
 };
 
 class Codigo_de_apresentacao{
-    private:
-        string numero;
-        string erro_de_evento;
+private:
+    string numero;
+    bool erro;
 
-        void valida_apresentacao();
+    bool valida_apresentacao(string numero);
 
-    public:
-        Codigo_de_apresentacao(){
-            numero = "";
-        }
+public:
+    Codigo_de_apresentacao(){
+        numero = "";
+        erro = false;
+    }
 
-        void getCodigo(){
-            cout << numero << endl;
-        }
+    string getCodigo(){
+        return numero;
+    }
 
-        void setCodigo_de_apresentacao(string numero);
+    bool setCodigo_de_apresentacao(string numero);
 };
 
 class Codigo_de_ingresso{
-    private:
-        string numero;
-        string erro_de_evento;
+private:
+    string numero;
+    bool erro;
 
-        void valida_ingresso();
+    bool valida_ingresso(string numero);
 
-    public:
-        Codigo_de_ingresso(){
-            numero = "";
-        }
+public:
+    Codigo_de_ingresso(){
+        numero = "";
+        erro = false;
+    }
 
-        int getCodigo(){
-            cout << numero << endl;
-        }
+    string getCodigo(){
+        return numero;
+    }
 
-        void setCodigo_de_ingresso(string numero);
+    bool setCodigo_de_ingresso(string numero);
 };
 
 class Nome_de_evento : private Conversor{
@@ -85,25 +87,23 @@ class Nome_de_evento : private Conversor{
         string evento;
         string nome;
 
-        string erro_de_nome;
+        bool erro_de_nome;
 
-        void valida_evento(string nome);
+        bool valida_evento(string nome);
 
     public:
-    //analisar retorno depois
         Nome_de_evento(){
             numero = -1;
             rand_numero = -1;
             evento = "";
             nome = "";
-            erro_de_nome = "";
+            erro_de_nome = false;
         }
 
-        void getNome_de_evento(){
-            cout << nome << endl;
+        string getNome_de_evento(){
+            return nome;
         }
-
-        void setNome_de_evento(string nome);
+        bool setNome_de_evento(string nome);
 };
 
 class Data : private Conversor{
@@ -112,103 +112,103 @@ class Data : private Conversor{
         string erro_de_data;
         int tamanho;
         int erro_barra;
-        int erro_data;
+        bool erro_data;
         int data_correta;
 
-        void valida_data(string data);
-
+        bool valida_data(string data);
+        
     public:
         Data(){
             data = "";
             erro_de_data = "";
             tamanho = 8;
             erro_barra = 0;
-            erro_data = 0;
+            erro_data = false;
             data_correta = 0;
         }
 
-        void getData(){
-            cout << data << endl;
+        string getData(){
+            return data;
         }
 
-        void setData(string data);
+        bool setData(string data);        
 };
 
 class Horario{
     private:
         string horario;
-        string erro_horario;
+        bool erro_horario;
         int formato;
 
-        void valida_horario(string horario);
+        bool valida_horario(string horario);
     public:
         Horario(){
             formato = -1;
+            erro_horario = false;
         }
 
-        void getHorario(){
-            cout << horario << endl;
+        string getHorario(){
+            return horario;
         }
 
-        void setHorario(string horario);
+        bool setHorario(string horario);
 };
 
 class Preco{
     private:
         int preco;
-        int erro;
-        void valida_preco();
+        bool erro;
+        bool valida_preco(int preco);
 
-    public:
-        Preco(){
-            preco = 0;
-            erro = 0;
-        }
+public:
+    Preco(){
+        preco = 0;
+        erro = false;
+    }
 
-        void getPreco(){
-            cout << preco << endl;
-        }
+    int getPreco(){
+        return preco;
+    }
 
-        void setPreco(int preco);
-
+        bool setPreco(int preco);
 };
 
 class Numero_de_sala{
     private:
         int sala;
-        int erro;
-        void valida_sala();
+        bool erro;
+        bool valida_sala(int sala);
 
     public:
         Numero_de_sala(){
             sala = 0;
-            erro = 0;
+            erro = false;
         }
 
-        void getSala(){
-            cout << sala << endl;
+        int getSala(){
+            return sala;
         }
 
-        void setSala(int sala);
+        bool setSala(int sala);
 };
 
 class Cidade{
     private:
         string cidade;
-        string erro;
+        bool erro;
 
-        void valida_cidade();
+        bool valida_cidade(string cidade);
     public:
         Cidade(){
             cidade = "";
-            erro = "";
+            erro = false;
         }
 
-        void getCidade(){
-            cout << cidade << endl;
+        string getCidade(){
+            return cidade;
         }
 
-        void setCidade(string cidade);
+        bool setCidade(string cidade);
 };
 
 class Estado{
@@ -243,13 +243,13 @@ class Estado{
         string TO;
         bool erro;
 
-        void valida_Estado();
+        bool valida_Estado(string estado);
 
     public:
         Estado(){
             estado = "";
             AC = "AC";
-            AL = "AL";
+            AL = "AL"; 
             AP = "AP";
             AM = "AM";
             BA = "BA";
@@ -275,74 +275,75 @@ class Estado{
             SP = "SP";
             SE = "SE";
             TO = "TO";
+            erro = false;
         }
 
-        void getEstado(){
-            cout << estado << endl;
+        string getEstado(){
+            return estado;
         }
 
-        void setEstado(string estado);
+        bool setEstado(string estado);
 };
 
 class Disponibilidade{
-    private:
-        int disponibilidade;
-        bool erro;
+private:
+    int disponibilidade;
+    bool erro;
 
-        void valida_disponibilidade();
+        bool valida_disponibilidade(int disponibilidade);
 
-    public:
-        Disponibilidade(){
-            disponibilidade = -1;
-            erro = false;
-        }
+public:
+    Disponibilidade(){
+        disponibilidade = -1;
+        erro = false;
+    }
 
-        void getDisponibilidade(){
-            cout << disponibilidade << endl;
-        }
+    int getDisponibilidade(){
+        return disponibilidade;
+    }
 
-        void setDisponibilidade(int disponibilidade);
+
+        bool setDisponibilidade(int disponibilidade);
 };
 
 class Classe_de_evento{
-    private:
-        int numero;
-        string escolha;
-        bool erro;
+private:
+    int numero;
+    string escolha;
+    bool erro;
 
-        void valida_classe_de_evento();
+        bool valida_classe_de_evento(int numero);
 
-    public:
-        Classe_de_evento(){
-            numero = 0;
-            erro = false;
-        }
+public:
+    Classe_de_evento(){
+        numero = 0;
+        erro = false;
+    }
 
-        void getClasse_de_evento(){
-            cout << escolha << endl;
-        }
+    int getClasse_de_evento(){
+        return numero;
+    }
 
-        void setClasse_de_evento(int numero);
+        bool setClasse_de_evento(int numero);
 };
 
 class Faixa_etaria{
-    private:
-        string faixa;
-        bool erro;
+private:
+    string faixa;
+    bool erro;
 
-        void valida_faixa_etaria();
+        bool valida_faixa_etaria(string faixa);
     public:
         Faixa_etaria(){
             faixa = "";
             erro = false;
         }
 
-        void getFaixa_etaria(){
-            cout << faixa << endl;
-        }
+    string getFaixa_etaria(){
+        return faixa;
+    }
 
-        void setFaixa_etaria(string faixa);
-
+        bool setFaixa_etaria(string faixa);
 };
 
 class Cpf : private Conversor{
@@ -356,91 +357,82 @@ class Cpf : private Conversor{
         int verificador1;
         int verificador2;
         string cpf_string;
-        string erro_tamanho;
+        bool erro_tamanho;
 
-        void valida_Cpf();
-
+        bool valida_Cpf(string cpf_string);
+        
     public:
 
         Cpf(){
             soma = 0;
             soma2 = 0;
-            erro_tamanho = "";
+            erro_tamanho = false;
         }
 
-        void getCpf(){
-            int i = 0;
-            while(i < 11){
-                cout << cpf[i];
-                i++;
-            }
-            cout << endl;
+        string getCpf(){
+            return cpf_string;
         }
 
-        void setCpf(string cpf_string);
+        bool setCpf(string cpf_string);
 };
 
 class Senha : private Conversor{
     private:
         //se for 0 vai ser numero, se for 1 vai ser letra minuscula, se for 2 letra maiuscula
         string senha;
-        string erro_senha;
+        bool erro_senha;
 
-        void valida_Senha();
-
+        bool valida_Senha(string senha);
+        
     public:
-    //analisar retorno depois
         Senha(){
-            erro_senha = "";
+            erro_senha = false;
         }
 
-        void getSenha(){
-            int i = 0;
-            while(i < senha.length()){
-                cout << senha[i];
-                i++;
-            }
-            cout << endl;
+        string getSenha(){
+            return senha;
         }
 
-        void setSenha(string senha);
+        bool setSenha(string senha);
 };
 
 class Numero_do_cartao_de_credito : private Conversor{
     private:
         string numero_cartao;
-
         bool erro;
 
-        void valida_cartao();
+        bool valida_cartao(string numero_cartao);
     public:
         Numero_do_cartao_de_credito(){
             numero_cartao = "";
             erro = false;
         }
 
-        void set_Numero_do_cartao_de_credito(string numero_cartao);
+        string get_Numero_do_cartao_de_credito(){
+            return numero_cartao;
+        }
+
+        bool set_Numero_do_cartao_de_credito(string numero_cartao);
 };
 
 class Codigo_de_seguranca{
-    private:
-        string numero;
-        string erro_de_evento;
+private:
+    string numero;
+    bool erro_de_evento;
 
-        void valida_Codigo();
+    bool valida_Codigo(string numero);
 
-     public:
-        Codigo_de_seguranca(){
-            numero = "";
-            erro_de_evento = "";
-        }
+public:
+    Codigo_de_seguranca(){
+        numero = "";
+        erro_de_evento = false;
+    }
 
-        void getCodigo() {
-            cout << numero << endl;
-        }
+    string getCodigo() {
+        return numero;
+    }
 
-        void setCodigo_de_seguranca(string numero);
-
+        bool setCodigo_de_seguranca(string numero);
 };
 
 class Data_de_validade{
@@ -448,17 +440,17 @@ class Data_de_validade{
         string data_validade;
         bool erro;
 
-        void valida_Data_de_validade();
+        bool valida_Data_de_validade(string data_validade);
 
      public:
         Data_de_validade(){
                 data_validade = "";
                 erro = false;
         }
-        void getData_de_validade() {
-                cout<< data_validade << endl;
+        string getData_de_validade() {
+                return data_validade;
         }
-        void setData_de_validade(string data_validade);
+        bool setData_de_validade(string data_validade);
 };
 
 #endif
